@@ -30,23 +30,25 @@
 
   .bg-word {
     position: absolute;
+    bottom: -40px;
     font-size: 22px;
-    animation: wordFloat linear infinite;
-    opacity: 0.35;
+    animation: wordFloat linear forwards;
+    opacity: 0;
     white-space: nowrap;
     color: #d81b60;
     font-weight: bold;
+    text-shadow: 0 2px 4px rgba(255,255,255,0.8);
   }
 
   @keyframes wordFloat {
-    0%   { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
-    10%  { opacity: 0.35; }
-    90%  { opacity: 0.35; }
-    100% { transform: translateY(-10vh) rotate(15deg) scale(1); opacity: 0; }
+    0%   { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.5; }
+    100% { transform: translateY(-110vh) rotate(-10deg) scale(1.1); opacity: 0; }
   }
 
   /* ===== 飘落的爱心粒子 ===== */
-  .hearts-container {
+  .particles-container {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
@@ -61,30 +63,52 @@
     opacity: 0.7;
   }
 
+  /* ===== 新增：升腾的星光 ===== */
+  .star-particle {
+    position: absolute;
+    font-size: 20px;
+    animation: rise linear infinite;
+    opacity: 0.8;
+    filter: drop-shadow(0 0 5px rgba(255,215,0,0.5));
+  }
+
   @keyframes fall {
     0%   { transform: translateY(-10%) rotate(0deg); opacity: 0.9; }
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0.2; }
   }
 
-  /* ===== 主卡片 ===== */
+  @keyframes rise {
+    0%   { transform: translateY(110vh) rotate(0deg) scale(0.8); opacity: 0; }
+    20%  { opacity: 0.9; }
+    80%  { opacity: 0.9; }
+    100% { transform: translateY(-10%) rotate(-360deg) scale(1.2); opacity: 0; }
+  }
+
+  /* ===== 主卡片（增加粉色呼吸光晕） ===== */
   .main-card {
     position: relative;
     z-index: 1;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.88);
+    backdrop-filter: blur(12px);
     border-radius: 24px;
     padding: 50px 40px 40px;
     max-width: 520px;
     width: 90%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.03);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 0 30px rgba(244,143,177,0.4);
+    animation: cardGlow 4s ease-in-out infinite alternate;
     transition: transform 0.3s;
+  }
+
+  @keyframes cardGlow {
+    from { box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 0 20px rgba(244,143,177,0.3); }
+    to   { box-shadow: 0 20px 60px rgba(0,0,0,0.08), 0 0 50px rgba(216,27,96,0.5); }
   }
 
   .main-card.hidden { display: none; }
 
   .main-card h1 {
-    font-size: 2em;
+    font-size: 2.2em;
     color: #d81b60;
     margin-bottom: 8px;
     letter-spacing: 2px;
@@ -92,36 +116,41 @@
 
   .main-card .subtitle {
     color: #ad1457;
-    font-size: 0.95em;
-    margin-bottom: 30px;
-    opacity: 0.8;
+    font-size: 1em;
+    margin-bottom: 25px;
+    opacity: 0.85;
   }
 
-  /* ===== 信的内容 ===== */
+  /* ===== 信的内容（增加行数和动画延迟） ===== */
   .letter {
     text-align: left;
     line-height: 2;
     color: #4a148c;
     font-size: 1.05em;
     margin-bottom: 35px;
-    padding: 20px 24px;
-    background: linear-gradient(135deg, #fce4ec40, #f8bbd040);
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(252,228,236,0.6), rgba(248,187,208,0.4));
     border-radius: 16px;
-    border-left: 3px solid #f48fb1;
+    border-left: 4px solid #f48fb1;
   }
 
   .letter .line {
     opacity: 0;
     transform: translateX(-20px);
     animation: fadeInLine 0.6s ease forwards;
+    margin-bottom: 4px;
   }
 
+  /* 适配更多文字的延迟展现 */
   .letter .line:nth-child(1) { animation-delay: 0.3s; }
-  .letter .line:nth-child(2) { animation-delay: 0.8s; }
-  .letter .line:nth-child(3) { animation-delay: 1.3s; }
-  .letter .line:nth-child(4) { animation-delay: 1.8s; }
-  .letter .line:nth-child(5) { animation-delay: 2.3s; }
-  .letter .line:nth-child(6) { animation-delay: 2.8s; }
+  .letter .line:nth-child(2) { animation-delay: 1.0s; }
+  .letter .line:nth-child(3) { animation-delay: 1.7s; }
+  .letter .line:nth-child(4) { animation-delay: 2.4s; }
+  .letter .line:nth-child(5) { animation-delay: 3.1s; font-weight: bold; color: #d81b60; }
+  .letter .line:nth-child(6) { animation-delay: 3.8s; font-style: italic; }
+  .letter .line:nth-child(7) { animation-delay: 4.5s; font-weight: bold; color: #d81b60; }
+  .letter .line:nth-child(8) { animation-delay: 5.2s; }
+  .letter .line:nth-child(9) { animation-delay: 5.9s; }
 
   @keyframes fadeInLine {
     to { opacity: 1; transform: translateX(0); }
@@ -129,9 +158,11 @@
 
   .letter .signature {
     text-align: right;
-    margin-top: 12px;
+    margin-top: 15px;
     opacity: 0;
-    animation: fadeInLine 0.6s 3.5s ease forwards;
+    font-size: 1.1em;
+    font-weight: bold;
+    animation: fadeInLine 0.6s 6.8s ease forwards;
   }
 
   /* ===== 按钮 ===== */
@@ -149,364 +180,185 @@
     transition: all 0.3s;
     box-shadow: 0 6px 20px rgba(216,27,96,0.3);
     opacity: 0;
-    animation: fadeInLine 0.6s 4.0s ease forwards;
+    animation: fadeInLine 0.6s 7.5s ease forwards;
   }
 
   .surprise-btn:hover {
     transform: scale(1.06);
-    box-shadow: 0 10px 30px rgba(216,27,96,0.4);
+    box-shadow: 0 10px 30px rgba(216,27,96,0.5);
   }
 
-  .surprise-btn:active {
-    transform: scale(0.97);
-  }
+  .surprise-btn:active { transform: scale(0.97); }
 
-  /* ===== 游戏容器 ===== */
-  .game-container {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 5;
-  }
-
+  /* ===== 游戏及后续部分保持不变 ===== */
+  .game-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 5; }
   .game-container.hidden { display: none; }
-
-  /* 游戏 HUD */
-  .game-hud {
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 6;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,255,255,0.85);
-    backdrop-filter: blur(10px);
-    padding: 12px 28px;
-    border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.06);
-  }
-
-  .game-hud .score-text {
-    font-size: 1.1em;
-    color: #d81b60;
-    letter-spacing: 1px;
-  }
-
-  .game-hud .score-bar-wrap {
-    width: 200px;
-    height: 10px;
-    background: #fce4ec;
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .game-hud .score-bar-fill {
-    height: 100%;
-    background: linear-gradient(90deg, #f48fb1, #d81b60);
-    border-radius: 10px;
-    transition: width 0.3s;
-  }
-
-  .game-hint {
-    position: absolute;
-    bottom: 60px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #d81b60;
-    font-size: 1.1em;
-    letter-spacing: 2px;
-    z-index: 6;
-    animation: pulse 1.5s ease-in-out infinite;
-  }
-
-  @keyframes pulse {
-    0%,100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-    50%     { opacity: 1;   transform: translateX(-50%) scale(1.05); }
-  }
-
-  /* 可点击的爱心 */
-  .clickable-heart {
-    position: absolute;
-    font-size: 40px;
-    cursor: pointer;
-    transition: transform 0.1s;
-    z-index: 6;
-    animation: heartPop 0.6s ease-out, heartFloat 3s ease-in-out infinite;
-    filter: drop-shadow(0 2px 8px rgba(216,27,96,0.3));
-  }
-
-  .clickable-heart:hover {
-    transform: scale(1.3);
-  }
-
-  .clickable-heart:active {
-    transform: scale(1.5);
-  }
-
-  @keyframes heartPop {
-    0%   { transform: scale(0); }
-    60%  { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  @keyframes heartFloat {
-    0%,100% { margin-top: 0; }
-    50%     { margin-top: -15px; }
-  }
-
-  /* 收集特效 */
-  .collect-effect {
-    position: absolute;
-    font-size: 20px;
-    pointer-events: none;
-    z-index: 7;
-    animation: collectUp 0.8s ease-out forwards;
-  }
-
-  @keyframes collectUp {
-    0%   { opacity: 1; transform: translateY(0) scale(1); }
-    100% { opacity: 0; transform: translateY(-60px) scale(1.5); }
-  }
-
-  /* ===== 通关弹窗 ===== */
-  .win-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-  }
-
+  .game-hud { position: absolute; top: 20px; left: 50%; transform: translateX(-50%); z-index: 6; display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); padding: 12px 28px; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+  .game-hud .score-text { font-size: 1.1em; color: #d81b60; letter-spacing: 1px; }
+  .game-hud .score-bar-wrap { width: 200px; height: 10px; background: #fce4ec; border-radius: 10px; overflow: hidden; }
+  .game-hud .score-bar-fill { height: 100%; background: linear-gradient(90deg, #f48fb1, #d81b60); border-radius: 10px; transition: width 0.3s; }
+  .game-hint { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%); color: #d81b60; font-size: 1.1em; letter-spacing: 2px; z-index: 6; animation: pulse 1.5s ease-in-out infinite; text-shadow: 0 2px 4px rgba(255,255,255,0.8); font-weight: bold;}
+  @keyframes pulse { 0%,100% { opacity: 0.6; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.05); } }
+  .clickable-heart { position: absolute; font-size: 40px; cursor: pointer; transition: transform 0.1s; z-index: 6; animation: heartPop 0.6s ease-out, heartFloat 3s ease-in-out infinite; filter: drop-shadow(0 2px 8px rgba(216,27,96,0.3)); }
+  .clickable-heart:hover { transform: scale(1.3); }
+  .clickable-heart:active { transform: scale(1.5); }
+  @keyframes heartPop { 0% { transform: scale(0); } 60% { transform: scale(1.2); } 100% { transform: scale(1); } }
+  @keyframes heartFloat { 0%,100% { margin-top: 0; } 50% { margin-top: -15px; } }
+  .collect-effect { position: absolute; font-size: 20px; pointer-events: none; z-index: 7; animation: collectUp 0.8s ease-out forwards; font-weight: bold; color: #d81b60;}
+  @keyframes collectUp { 0% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(-60px) scale(1.5); } }
+  .win-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 10; backdrop-filter: blur(5px);}
   .win-overlay.hidden { display: none; }
-
-  .win-card {
-    background: rgba(255,255,255,0.95);
-    border-radius: 24px;
-    padding: 40px;
-    text-align: center;
-    animation: heartPop 0.6s ease-out;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-  }
-
-  .win-card h2 {
-    font-size: 1.8em;
-    color: #d81b60;
-    margin-bottom: 10px;
-  }
-
-  .win-card p {
-    color: #4a148c;
-    margin-bottom: 24px;
-    font-size: 1.1em;
-  }
-
-  .win-card .win-btn {
-    padding: 12px 36px;
-    font-size: 1em;
-    color: #fff;
-    background: linear-gradient(135deg, #f48fb1, #d81b60);
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    letter-spacing: 2px;
-    font-family: inherit;
-    transition: all 0.3s;
-    box-shadow: 0 6px 20px rgba(216,27,96,0.3);
-  }
-
-  .win-card .win-btn:hover {
-    transform: scale(1.06);
-  }
-
-  /* ===== 倒计时覆盖层 ===== */
-  .countdown-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10;
-  }
-
+  .win-card { background: rgba(255,255,255,0.95); border-radius: 24px; padding: 40px; text-align: center; animation: heartPop 0.6s ease-out; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+  .win-card h2 { font-size: 1.8em; color: #d81b60; margin-bottom: 10px; }
+  .win-card p { color: #4a148c; margin-bottom: 24px; font-size: 1.1em; line-height: 1.6;}
+  .win-card .win-btn { padding: 12px 36px; font-size: 1em; color: #fff; background: linear-gradient(135deg, #f48fb1, #d81b60); border: none; border-radius: 50px; cursor: pointer; letter-spacing: 2px; font-family: inherit; transition: all 0.3s; box-shadow: 0 6px 20px rgba(216,27,96,0.3); }
+  .win-card .win-btn:hover { transform: scale(1.06); }
+  .countdown-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 10; }
   .countdown-overlay.hidden { display: none; }
-
-  .countdown-number {
-    font-size: 8em;
-    color: #fff;
-    font-weight: bold;
-    text-shadow: 0 0 40px rgba(255,255,255,0.5);
-    animation: countPop 0.6s ease;
-  }
-
-  @keyframes countPop {
-    0%   { transform: scale(0.3); opacity: 0; }
-    60%  { transform: scale(1.2); opacity: 1; }
-    100% { transform: scale(1); opacity: 1; }
-  }
-
-  .countdown-text {
-    position: absolute;
-    bottom: 25%;
-    font-size: 1.5em;
-    color: #f48fb1;
-    letter-spacing: 4px;
-    animation: fadeInLine 0.5s ease forwards;
-  }
-
-  /* ===== 视频全屏层 ===== */
-  .video-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-  }
-
+  .countdown-number { font-size: 8em; color: #fff; font-weight: bold; text-shadow: 0 0 40px rgba(255,255,255,0.5); animation: countPop 0.6s ease; }
+  @keyframes countPop { 0% { transform: scale(0.3); opacity: 0; } 60% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+  .countdown-text { position: absolute; bottom: 25%; font-size: 1.5em; color: #f48fb1; letter-spacing: 4px; animation: fadeInLine 0.5s ease forwards; }
+  .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #000; display: flex; align-items: center; justify-content: center; z-index: 100; }
   .video-overlay.hidden { display: none; }
-
-  .video-overlay video {
-    width: 100%; height: 100%;
-    object-fit: cover;
-  }
-
-  /* 关闭提示（极不明显） */
-  .video-overlay .close-hint {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    color: #222;
-    font-size: 10px;
-    opacity: 0.3;
-    cursor: default;
-  }
+  .video-overlay video { width: 100%; height: 100%; object-fit: cover; }
+  .video-overlay .close-hint { position: absolute; bottom: 10px; right: 10px; color: #222; font-size: 10px; opacity: 0.3; cursor: default; }
+  .cursor-trail { position: fixed; pointer-events: none; z-index: 50; animation: trailFade 0.8s ease-out forwards; font-size: 18px; filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));}
+  @keyframes trailFade { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(10px, 10px) scale(0.3); } }
+  .click-burst { position: fixed; pointer-events: none; z-index: 51; animation: burstPop 0.7s ease-out forwards; font-size: 16px; }
 </style>
 </head>
 <body>
 
-<!-- 背景氛围词 -->
-<div class="bg-words-container" id="bgWords"></div>
+<audio id="bgMusic" loop>
+  <source src="sweet.mp3" type="audio/mpeg">
+</audio>
 
-<!-- 飘落爱心 -->
-<div class="hearts-container" id="hearts"></div>
+<div class="bg-words-container" id="bgWords"></div>
+<div class="particles-container" id="particles"></div>
 
 <!-- 主卡片 -->
 <div class="main-card" id="mainCard">
-  <h1>💕 521</h1>
-  <p class="subtitle">—— 给我最好的朋友</p>
+  <h1>💕 521 快乐</h1>
+  <p class="subtitle">—— 献给我无可替代的好朋友</p>
 
   <div class="letter">
     <p class="line">亲爱的 Dee：</p>
-    <p class="line">今天是 5 月 21 日，一个特别的日子。</p>
-    <p class="line">我想借这个机会告诉你——</p>
-    <p class="line">能遇到你是我最幸运的事。</p>
-    <p class="line">谢谢你一直以来的陪伴和温暖 💗</p>
-    <p class="line">所以……我给你准备了一份小惊喜！</p>
-    <p class="signature" style="color:#d81b60;">—— 娜娜 ✨</p>
+    <p class="line">今天是 5 月 21 日，一个充满爱的日子。</p>
+    <p class="line">我想借这个特别的机会告诉你——</p>
+    <p class="line">能遇到你，是我生命中最幸运的事。</p>
+    <p class="line">你是最棒的哦！🌟</p>
+    <p class="line">“乘风破浪会有时，直挂云帆济沧海”</p>
+    <p class="line">无论未来遇到什么，我们都要一起加油哇！</p>
+    <p class="line">谢谢你一直以来的陪伴、包容和温暖 💗</p>
+    <p class="line">所以……我为你精心准备了一份小惊喜！</p>
+    <p class="signature" style="color:#d81b60;">—— 最爱你的 娜娜 ✨</p>
   </div>
 
   <button class="surprise-btn" id="surpriseBtn" onclick="startGame()">
-    🎁 点击查看惊喜礼物 🎁
+    🎁 点击开启你的专属惊喜 🎁
   </button>
 </div>
 
 <!-- 游戏容器 -->
 <div class="game-container hidden" id="gameContainer">
   <div class="game-hud">
-    <span class="score-text">💗 已收集</span>
+    <span class="score-text">💗 收集我们的爱</span>
     <span class="score-text" id="scoreNum" style="font-weight:bold;">0</span>
     <span class="score-text">/ 10</span>
     <div class="score-bar-wrap">
       <div class="score-bar-fill" id="scoreBar" style="width:0%"></div>
     </div>
   </div>
-  <div class="game-hint" id="gameHint">👆 点击飘动的爱心来收集它们吧！</div>
+  <div class="game-hint" id="gameHint">👆 戳戳飘落的爱心，收集好运吧！</div>
 </div>
 
 <!-- 通关弹窗 -->
 <div class="win-overlay hidden" id="winOverlay">
   <div class="win-card">
-    <h2>🎉 太棒了！</h2>
-    <p>你收集了所有的爱心！<br>真正的惊喜来了……</p>
-    <button class="win-btn" onclick="startCountdown()">🌟 揭晓惊喜 🌟</button>
+    <h2>🎉 太棒啦！</h2>
+    <p>爱心收集完毕，你就是今天的幸运星！<br>真正的重磅惊喜已经准备就绪……</p>
+    <button class="win-btn" onclick="startCountdown()">🌟 揭晓神秘惊喜 🌟</button>
   </div>
 </div>
 
 <!-- 倒计时层 -->
 <div class="countdown-overlay hidden" id="countdownOverlay">
   <div class="countdown-number" id="countdownNum">3</div>
-  <div class="countdown-text">✨ 惊喜即将揭晓 ✨</div>
+  <div class="countdown-text">✨ 屏住呼吸，马上为你呈现 ✨</div>
 </div>
 
-<!-- 视频层 -->
+<!-- 视频层（Jumpscare） -->
 <div class="video-overlay hidden" id="videoOverlay">
   <video id="scareVideo" autoplay playsinline></video>
   <span class="close-hint">.</span>
 </div>
 
 <script>
-  // ===== 背景氛围词 =====
+  // ===== 背景氛围词扩充 =====
   const bgWordsContainer = document.getElementById('bgWords');
   const bgTexts = [
-    '宝宝', '我爱你', '最喜欢你了', 'Dee ♡', '❤️', '💗', '💕', '💖', '💝', '✨',
-    '(｡･ω･｡)ﾉ♡', '(◍•ᴗ•◍)❤', '♡＾▽＾♡', '(⁄ ⁄>⁄ ▽ ⁄<⁄ ⁄)', 'ฅ^•ﻌ•^ฅ',
-    '(´▽`ʃ♡ƪ)', '(๑˘︶˘๑)', '(✿◠‿◠)', '٩(◕‿◕｡)۶', '(づ｡◕‿‿◕｡)づ',
-    '╰(*´︶`*)╯♡', '(｡♥‿♥｡)', '♪(´ε｀ )', '(//∇//)', '♡(｡- ω -)',
-    '最好的朋友', '嘿嘿', 'Dee 最棒啦', '今天是521', '(♡°▽°♡)',
-    '每一天都要开心', '生日快乐', '友谊长存', '爱你哟～', '💌',
-    '(つ✧ω✧)つ', '🎀', '🌸', '🌷', '🩷', '永远的好朋友'
+    '你是最棒的哦！', '乘风破浪会有时，直挂云帆济沧海', '加油哇！', '向着光亮那方', 
+    '永远闪耀', '宝宝', '最喜欢你了', 'Dee ♡', '❤️', '💗', '💕', '💖', '💝', '✨',
+    '(｡･ω･｡)ﾉ♡', '♡＾▽＾♡', 'ฅ^•ﻌ•^ฅ', '最好的朋友', 'Dee 最棒啦', '今天是521', 
+    '每一天都要开心', '友谊长存', '爱你哟～', '💌', '🎀', '🌸', '🩷', '一起走花路吧'
   ];
 
   function createBgWord() {
     const el = document.createElement('span');
     el.className = 'bg-word';
     el.textContent = bgTexts[Math.floor(Math.random() * bgTexts.length)];
-    el.style.left = Math.random() * 90 + '%';
-    el.style.fontSize = (16 + Math.random() * 18) + 'px';
-    el.style.animationDuration = (12 + Math.random() * 15) + 's';
-    el.style.animationDelay = Math.random() * 5 + 's';
+    el.style.left = Math.random() * 85 + '%'; 
+    el.style.fontSize = (16 + Math.random() * 16) + 'px';
+    const duration = (8 + Math.random() * 12);
+    el.style.animationDuration = duration + 's';
     el.style.color = ['#d81b60','#ad1457','#e91e63','#c2185b','#f06292'][Math.floor(Math.random()*5)];
     bgWordsContainer.appendChild(el);
-
-    setTimeout(() => el.remove(), 20000);
+    setTimeout(() => el.remove(), duration * 1000 + 200);
   }
 
-  for (let i = 0; i < 20; i++) {
-    setTimeout(createBgWord, i * 300);
+  for (let i = 0; i < 15; i++) { setTimeout(createBgWord, i * 400); }
+  setInterval(createBgWord, 1200);
+
+  // ===== 背景音乐互动启动 =====
+  const bgMusic = document.getElementById('bgMusic');
+  let musicStarted = false;
+  function tryStartMusic() {
+    if (musicStarted) return;
+    bgMusic.play().then(() => { musicStarted = true; }).catch(() => {});
   }
-  setInterval(createBgWord, 1000);
+  document.addEventListener('click', tryStartMusic, { once: false });
+  document.addEventListener('touchstart', tryStartMusic, { once: false });
 
-  // ===== 飘落爱心粒子 =====
-  const heartsContainer = document.getElementById('hearts');
-  const heartEmojis = ['💕', '💗', '💖', '💝', '🌸', '✨', '🩷', '💌'];
+  // ===== 混合粒子特效（爱心落下 + 星星升起） =====
+  const particlesContainer = document.getElementById('particles');
+  const heartEmojis = ['💕', '💗', '💖', '💝', '🌸', '🩷', '💌'];
+  const starEmojis = ['✨', '🌟', '⭐'];
 
-  function createHeart() {
+  function createParticle() {
     const el = document.createElement('span');
-    el.className = 'heart-particle';
-    el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    const isStar = Math.random() > 0.6; // 40%概率是星星
+    
+    if (isStar) {
+      el.className = 'star-particle';
+      el.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+      el.style.animationDuration = (8 + Math.random() * 10) + 's';
+    } else {
+      el.className = 'heart-particle';
+      el.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      el.style.animationDuration = (6 + Math.random() * 8) + 's';
+    }
+    
     el.style.left = Math.random() * 100 + '%';
-    el.style.animationDuration = (6 + Math.random() * 8) + 's';
     el.style.animationDelay = Math.random() * 5 + 's';
     el.style.fontSize = (18 + Math.random() * 20) + 'px';
-    heartsContainer.appendChild(el);
-    setTimeout(() => el.remove(), 15000);
+    particlesContainer.appendChild(el);
+    setTimeout(() => el.remove(), 18000);
   }
 
-  for (let i = 0; i < 20; i++) {
-    setTimeout(createHeart, i * 300);
-  }
-  setInterval(createHeart, 800);
+  for (let i = 0; i < 30; i++) { setTimeout(createParticle, i * 200); }
+  setInterval(createParticle, 600);
 
-  // ===== 小游戏 =====
+  // ===== 收集小游戏 =====
   const TARGET_SCORE = 10;
   let gameScore = 0;
   let gameActive = false;
@@ -525,83 +377,60 @@
     gameScore = 0;
     gameActive = true;
     updateScore();
-
-    // 开始生成可点击爱心
     heartSpawnTimer = setInterval(spawnClickableHeart, 600);
-
-    // 初始一次生成 5 个
-    for (let i = 0; i < 5; i++) {
-      setTimeout(spawnClickableHeart, i * 150);
-    }
+    for (let i = 0; i < 5; i++) { setTimeout(spawnClickableHeart, i * 150); }
   }
 
   function spawnClickableHeart() {
     if (!gameActive) return;
-
     const el = document.createElement('span');
     el.className = 'clickable-heart';
     const hearts = ['💗', '💖', '💝', '🩷', '💕', '🫶'];
     el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
     el.style.left = (5 + Math.random() * 85) + '%';
     el.style.top = (10 + Math.random() * 75) + '%';
-    el.style.fontSize = (35 + Math.random() * 25) + 'px';
+    el.style.fontSize = (40 + Math.random() * 20) + 'px';
     el.style.animationDelay = Math.random() * 1.5 + 's';
 
-    el.addEventListener('click', function(e) {
+    const collectHandler = function(e) {
       if (!gameActive) return;
-      collectHeart(el, e);
-    });
+      if (e.preventDefault) e.preventDefault();
+      
+      gameScore++;
+      updateScore();
 
-    // 触摸事件（手机端）
-    el.addEventListener('touchstart', function(e) {
-      if (!gameActive) return;
-      e.preventDefault();
-      collectHeart(el, e.touches[0]);
-    }, {passive: false});
+      const effect = document.createElement('span');
+      effect.className = 'collect-effect';
+      effect.textContent = ['加油哇！', '最棒啦！', '✨', '好运+1'][Math.floor(Math.random() * 4)];
+      effect.style.left = (e.clientX || (e.touches && e.touches[0].clientX) || 0) + 'px';
+      effect.style.top = (e.clientY || (e.touches && e.touches[0].clientY) || 0) + 'px';
+      gameContainer.appendChild(effect);
+      setTimeout(() => effect.remove(), 800);
+
+      el.style.transform = 'scale(1.5)';
+      el.style.opacity = '0';
+      el.style.transition = 'all 0.2s';
+      setTimeout(() => el.remove(), 200);
+
+      const hints = [
+        '你是最棒的！继续收集！🌟',
+        '加油加油～',
+        'Dee 真厉害！',
+        '还差一点点哦～',
+        '乘风破浪会有时！',
+        '太厉害了！',
+        '马上就能看到惊喜啦！🎁'
+      ];
+      gameHint.textContent = hints[Math.min(gameScore - 1, hints.length - 1)];
+
+      if (gameScore >= TARGET_SCORE) { gameWin(); }
+    };
+
+    el.addEventListener('click', collectHandler);
+    el.addEventListener('touchstart', collectHandler, {passive: false});
 
     gameContainer.appendChild(el);
-
-    // 8 秒后自动消失
-    setTimeout(() => {
-      if (el.parentNode) el.remove();
-    }, 8000);
-  }
-
-  function collectHeart(el, event) {
-    gameScore++;
-    updateScore();
-
-    // 收集特效
-    const effect = document.createElement('span');
-    effect.className = 'collect-effect';
-    effect.textContent = ['+1', '💗', '✨', '٩(ˊᗜˋ*)و'][Math.floor(Math.random() * 4)];
-    effect.style.left = (event.clientX || event.pageX) + 'px';
-    effect.style.top = (event.clientY || event.pageY) + 'px';
-    gameContainer.appendChild(effect);
-    setTimeout(() => effect.remove(), 800);
-
-    // 移除爱心
-    el.style.transform = 'scale(1.5)';
-    el.style.opacity = '0';
-    el.style.transition = 'all 0.2s';
-    setTimeout(() => el.remove(), 200);
-
-    // 提示文字变化
-    const hints = [
-      '好棒！继续收集！💗',
-      '加油加油～',
-      'Dee 真厉害！',
-      '还差一点点哦～',
-      '٩(◕‿◕｡)۶',
-      '太厉害了！',
-      '快完成了！✨'
-    ];
-    gameHint.textContent = hints[Math.min(gameScore - 1, hints.length - 1)];
-
-    // 检查通关
-    if (gameScore >= TARGET_SCORE) {
-      gameWin();
-    }
+    setTimeout(() => { if (el.parentNode) el.remove(); }, 8000);
   }
 
   function updateScore() {
@@ -612,26 +441,18 @@
   function gameWin() {
     gameActive = false;
     clearInterval(heartSpawnTimer);
-
-    // 清除剩余的爱心
     document.querySelectorAll('.clickable-heart').forEach(el => el.remove());
-
-    gameHint.textContent = '🎉 全部收集完了！';
-
-    // 延迟弹出通关弹窗
-    setTimeout(() => {
-      winOverlay.classList.remove('hidden');
-    }, 500);
+    gameHint.textContent = '🎉 完美通关！你是最棒的！';
+    setTimeout(() => { winOverlay.classList.remove('hidden'); }, 600);
   }
 
-  // ===== 倒计时 → 视频 =====
+  // ===== 倒计时 -> 高能视频 =====
   function startCountdown() {
     winOverlay.classList.add('hidden');
     const overlay = document.getElementById('countdownOverlay');
     const numEl = document.getElementById('countdownNum');
 
     overlay.classList.remove('hidden');
-
     let count = 3;
     numEl.textContent = count;
     triggerAnim(numEl);
@@ -658,29 +479,73 @@
     const countdownOverlay = document.getElementById('countdownOverlay');
     const videoOverlay = document.getElementById('videoOverlay');
     const video = document.getElementById('scareVideo');
+    const bgMusic = document.getElementById('bgMusic');
 
     countdownOverlay.classList.add('hidden');
+    bgMusic.pause(); // 气氛突然安静，准备核能
     video.src = 'scare.mp4';
     videoOverlay.classList.remove('hidden');
     video.load();
-    video.play().catch((e) => {
-      console.error('视频播放失败:', e);
-    });
+    video.play().catch((e) => { console.error('视频播放失败:', e); });
 
-    // 视频结束后重置
     video.onended = () => {
       videoOverlay.classList.add('hidden');
-      // 回到主卡片
+      bgMusic.play().catch(() => {});
       mainCard.classList.remove('hidden');
       gameContainer.classList.add('hidden');
       gameScore = 0;
       gameActive = false;
       updateScore();
-      gameHint.textContent = '👆 点击飘动的爱心来收集它们吧！';
+      gameHint.textContent = '👆 戳戳飘落的爱心，收集好运吧！';
       scoreBar.style.width = '0%';
       scoreNum.textContent = '0';
     };
   }
+
+  // ===== 鼠标拖尾与点击特效 =====
+  const trailEmojis = ['✨', '🌟', '💕', '🌸', '⭐'];
+  let lastTrailTime = 0;
+
+  function handleTrail(x, y) {
+    const now = Date.now();
+    if (now - lastTrailTime < 50) return;
+    lastTrailTime = now;
+    const el = document.createElement('span');
+    el.className = 'cursor-trail';
+    el.textContent = trailEmojis[Math.floor(Math.random() * trailEmojis.length)];
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    el.style.fontSize = (12 + Math.random() * 14) + 'px';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 800);
+  }
+
+  document.addEventListener('mousemove', e => handleTrail(e.clientX, e.clientY));
+  document.addEventListener('touchmove', e => handleTrail(e.touches[0].clientX, e.touches[0].clientY), { passive: true });
+
+  const burstStyle = document.createElement('style');
+  burstStyle.textContent = `@keyframes burstSpread { 0% { opacity: 1; transform: translate(0, 0) scale(0.5); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(1.5); } }`;
+  document.head.appendChild(burstStyle);
+
+  const burstEmojis = ['🌟', '✨', '💖', '🌸', '加油'];
+  document.addEventListener('click', function(e) {
+    for (let i = 0; i < 8; i++) {
+      const el = document.createElement('span');
+      el.className = 'click-burst';
+      el.textContent = burstEmojis[Math.floor(Math.random() * burstEmojis.length)];
+      el.style.left = e.clientX + 'px';
+      el.style.top = e.clientY + 'px';
+      if(el.textContent === '加油') el.style.fontSize = '12px';
+
+      const angle = (Math.PI * 2 * i) / 8;
+      const dist = 30 + Math.random() * 30;
+      el.style.animation = `burstSpread 0.7s ease-out forwards`;
+      el.style.setProperty('--dx', (Math.cos(angle) * dist) + 'px');
+      el.style.setProperty('--dy', (Math.sin(angle) * dist) + 'px');
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 700);
+    }
+  });
 </script>
 
 </body>
