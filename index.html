@@ -225,6 +225,85 @@
   .cursor-trail { position: fixed; pointer-events: none; z-index: 50; animation: trailFade 0.8s ease-out forwards; font-size: 18px; filter: drop-shadow(0 0 2px rgba(255,255,255,0.8));}
   @keyframes trailFade { 0% { opacity: 1; transform: translate(0, 0) scale(1); } 100% { opacity: 0; transform: translate(10px, 10px) scale(0.3); } }
   .click-burst { position: fixed; pointer-events: none; z-index: 51; animation: burstPop 0.7s ease-out forwards; font-size: 16px; }
+
+  /* ===== 手机端适配 ===== */
+  @media (max-width: 768px) {
+    body { overflow: hidden; }
+
+    .main-card {
+      padding: 30px 20px 25px !important;
+      max-width: 92vw !important;
+      border-radius: 20px !important;
+    }
+
+    .main-card h1 { font-size: 1.6em !important; }
+    .main-card .subtitle { font-size: 0.85em !important; }
+
+    .letter {
+      font-size: 0.9em !important;
+      padding: 16px !important;
+      line-height: 1.9 !important;
+      margin-bottom: 22px !important;
+    }
+
+    .surprise-btn {
+      font-size: 0.95em !important;
+      padding: 12px 28px !important;
+      letter-spacing: 1px !important;
+    }
+
+    .bg-word { font-size: 15px !important; }
+
+    /* 游戏 HUD */
+    .game-hud {
+      padding: 8px 16px !important;
+      gap: 6px !important;
+      flex-wrap: wrap !important;
+      top: 12px !important;
+    }
+    .game-hud .score-text { font-size: 0.9em !important; }
+    .game-hud .score-bar-wrap { width: 120px !important; height: 8px !important; }
+    .game-hint {
+      bottom: 35px !important;
+      font-size: 0.9em !important;
+    }
+
+    /* 可点击爱心更大，手指好点 */
+    .clickable-heart {
+      font-size: 50px !important;
+    }
+
+    .collect-effect { font-size: 16px !important; }
+
+    .win-card {
+      padding: 28px 24px !important;
+      width: 85vw !important;
+    }
+    .win-card h2 { font-size: 1.4em !important; }
+    .win-card p { font-size: 0.95em !important; }
+
+    .countdown-number { font-size: 5em !important; }
+    .countdown-text { font-size: 1.1em !important; bottom: 30% !important; }
+
+    /* 视频全屏适配 */
+    .video-overlay video {
+      object-fit: contain !important;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .cursor-trail { font-size: 14px !important; }
+  }
+
+  /* 超小屏(老手机) */
+  @media (max-width: 400px) {
+    .main-card { padding: 22px 14px 18px !important; }
+    .main-card h1 { font-size: 1.3em !important; }
+    .letter { font-size: 0.8em !important; line-height: 1.7 !important; }
+    .surprise-btn { font-size: 0.85em !important; padding: 10px 22px !important; }
+    .game-hud .score-bar-wrap { width: 80px !important; }
+    .clickable-heart { font-size: 44px !important; }
+  }
 </style>
 </head>
 <body>
@@ -326,8 +405,8 @@
     if (musicStarted) return;
     bgMusic.play().then(() => { musicStarted = true; }).catch(() => {});
   }
-  document.addEventListener('click', tryStartMusic, { once: false });
-  document.addEventListener('touchstart', tryStartMusic, { once: false });
+  document.addEventListener('click', tryStartMusic, { once: true });
+  document.addEventListener('touchstart', tryStartMusic, { once: true });
 
   // ===== 混合粒子特效（爱心落下 + 星星升起） =====
   const particlesContainer = document.getElementById('particles');
